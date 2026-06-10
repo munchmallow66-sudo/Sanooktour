@@ -74,10 +74,11 @@ export async function POST(request: Request) {
       { status: 400 }
     );
 
-  } catch (error: any) {
+  } catch (error) {
     console.error("Auth API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "เกิดข้อผิดพลาดในการตรวจสอบสิทธิ์", details: error.message },
+      { error: "เกิดข้อผิดพลาดในการตรวจสอบสิทธิ์", details: errorMessage },
       { status: 500 }
     );
   }

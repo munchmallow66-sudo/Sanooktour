@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Compass, ShieldCheck, HeartHandshake, Award, Headset, Star, ArrowRight, Image as ImageIcon } from "lucide-react";
+import { ShieldCheck, HeartHandshake, Award, Headset, Star, ArrowRight, Image as ImageIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -23,7 +23,6 @@ export default function HomePage() {
       try {
         setLoading(true);
         // Load destinations
-        const destRes = await fetch("/api/tours"); // We can fetch tours and group or get separate endpoints
         // For simplicity and decoupling, let's fetch tours and filter locally for home, or load from separate API if defined
         const toursRes = await fetch("/api/tours");
         const allTours = await toursRes.json() as Tour[];
@@ -139,6 +138,7 @@ export default function HomePage() {
                 className="relative h-64 rounded-3xl overflow-hidden shadow-xs hover:shadow-lg group cursor-pointer"
               >
                 <Link href={`/tours?search=${encodeURIComponent(dest.name.split(' ')[0])}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={dest.image_url}
                     alt={dest.name}
@@ -315,6 +315,7 @@ export default function HomePage() {
                 transition={{ delay: idx * 0.05 }}
                 className="relative h-64 rounded-2xl overflow-hidden group cursor-zoom-in"
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={img}
                   alt={`Gallery Image ${idx + 1}`}
@@ -334,6 +335,7 @@ export default function HomePage() {
         <section className="relative overflow-hidden rounded-3xl bg-slate-950 py-16 px-8 text-center text-white border border-slate-800">
           {/* Background overlay details */}
           <div className="absolute inset-0 z-0">
+             {/* eslint-disable-next-line @next/next/no-img-element */}
              <img 
               src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=70" 
               alt="CTA Background" 

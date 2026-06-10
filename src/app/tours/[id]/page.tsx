@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use, useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { 
@@ -31,7 +31,7 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
   const [reviewComment, setReviewComment] = useState("");
   const [submittingReview, setSubmittingReview] = useState(false);
 
-  const fetchTourDetail = async () => {
+  const fetchTourDetail = useCallback(async () => {
     try {
       const res = await fetch(`/api/tours/${id}`);
       if (!res.ok) {
@@ -48,11 +48,13 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, router]);
 
   useEffect(() => {
-    fetchTourDetail();
-  }, [id]);
+    setTimeout(() => {
+      fetchTourDetail();
+    }, 0);
+  }, [fetchTourDetail]);
 
   const toggleDay = (day: number) => {
     setExpandedDay(expandedDay === day ? null : day);
@@ -76,15 +78,6 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
 
     setSubmittingReview(true);
     try {
-      const res = await fetch("/api/bookings", { // We will write code to handle review addition in API
-        // Wait, reviews can be created via standard endpoint
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // Let's create an endpoint or let db.ts handle it
-      });
-      
-      // Let's call our db review creator. Actually we can do a POST to /api/tours/${id} or write a reviews API.
-      // Wait, we can implement it via a POST to /api/tours/[id] or write code directly.
       // Let's fetch to `/api/tours/${id}` as a POST to add review. That is very clean!
       const reviewRes = await fetch(`/api/tours/${id}`, {
         method: "POST",

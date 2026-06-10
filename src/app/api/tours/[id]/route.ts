@@ -24,10 +24,11 @@ export async function GET(
       images: images.map(img => img.url),
       reviews
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("GET tour detail API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "ไม่สามารถดึงรายละเอียดทัวร์ได้", details: error.message },
+      { error: "ไม่สามารถดึงรายละเอียดทัวร์ได้", details: errorMessage },
       { status: 500 }
     );
   }
@@ -74,10 +75,11 @@ export async function PUT(
     }
 
     return NextResponse.json(updatedTour);
-  } catch (error: any) {
+  } catch (error) {
     console.error("PUT tour detail API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "เกิดข้อผิดพลาดในการอัปเดตข้อมูลทัวร์", details: error.message },
+      { error: "เกิดข้อผิดพลาดในการอัปเดตข้อมูลทัวร์", details: errorMessage },
       { status: 500 }
     );
   }
@@ -99,10 +101,11 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true, message: "ลบข้อมูลทัวร์เรียบร้อยแล้ว" });
-  } catch (error: any) {
+  } catch (error) {
     console.error("DELETE tour detail API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "เกิดข้อผิดพลาดในการลบข้อมูลทัวร์", details: error.message },
+      { error: "เกิดข้อผิดพลาดในการลบข้อมูลทัวร์", details: errorMessage },
       { status: 500 }
     );
   }
@@ -132,10 +135,11 @@ export async function POST(
     });
 
     return NextResponse.json(newReview, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("POST review detail API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "เกิดข้อผิดพลาดในการส่งรีวิว", details: error.message },
+      { error: "เกิดข้อผิดพลาดในการส่งรีวิว", details: errorMessage },
       { status: 500 }
     );
   }

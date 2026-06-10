@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { MapPin, Phone, Mail, MessageSquare, Clock, Send, CheckCircle } from "lucide-react";
-import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -97,6 +96,7 @@ export default function ContactPage() {
         {/* Banner */}
         <section className="relative min-h-[45vh] flex items-center justify-center bg-slate-900 text-white overflow-hidden text-center pt-28 pb-20">
           <div className="absolute inset-0 opacity-20">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80"
               alt="Contact Banner"

@@ -31,10 +31,11 @@ export async function GET(request: Request) {
     });
 
     return NextResponse.json(tours);
-  } catch (error: any) {
+  } catch (error) {
     console.error("GET tours API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "ไม่สามารถดึงข้อมูลแพ็กเกจทัวร์ได้", details: error.message },
+      { error: "ไม่สามารถดึงข้อมูลแพ็กเกจทัวร์ได้", details: errorMessage },
       { status: 500 }
     );
   }
@@ -78,10 +79,11 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(newTour, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("POST tours API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "ไม่สามารถบันทึกข้อมูลแพ็กเกจทัวร์ได้", details: error.message },
+      { error: "ไม่สามารถบันทึกข้อมูลแพ็กเกจทัวร์ได้", details: errorMessage },
       { status: 500 }
     );
   }

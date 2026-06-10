@@ -17,10 +17,11 @@ export async function DELETE(
     }
 
     return NextResponse.json({ success: true, message: "ลบรีวิวสำเร็จแล้ว" });
-  } catch (error: any) {
+  } catch (error) {
     console.error("DELETE review API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "เกิดข้อผิดพลาดในการลบรีวิว", details: error.message },
+      { error: "เกิดข้อผิดพลาดในการลบรีวิว", details: errorMessage },
       { status: 500 }
     );
   }

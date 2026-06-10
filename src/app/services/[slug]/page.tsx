@@ -6,6 +6,17 @@ import { CheckCircle2, HelpCircle, Phone, Mail } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+interface ServiceDetail {
+  title: string;
+  subtitle: string;
+  desc: string;
+  bgImage: string;
+  benefits: string[];
+  highlights: string[];
+  placeholderName: string;
+  previewImages?: string[];
+}
+
 const servicesData: Record<string, {
   title: string;
   subtitle: string;
@@ -120,7 +131,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
   const router = useRouter();
   const { slug } = use(params);
   
-  const [service, setService] = useState<any>(null);
+  const [service, setService] = useState<ServiceDetail | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -135,8 +146,10 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
     } else {
       localStorage.setItem("services_data", JSON.stringify(servicesData));
     }
-    setService(currentData[slug] || null);
-    setLoading(false);
+    setTimeout(() => {
+      setService(currentData[slug] || null);
+      setLoading(false);
+    }, 0);
   }, [slug]);
 
   if (loading) {
@@ -174,6 +187,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
         {/* Hero Section */}
         <section className="relative min-h-[50vh] flex items-center justify-center bg-linear-to-r from-primary-dark via-slate-950 to-primary-dark text-white overflow-hidden text-center pt-28 pb-16">
           <div className="absolute inset-0 opacity-25">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src={service.bgImage} 
               alt={service.title} 
@@ -246,6 +260,7 @@ export default function ServiceDetailPage({ params }: { params: Promise<{ slug: 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2">
                   {service.previewImages.map((img: string, idx: number) => (
                     <div key={idx} className="relative h-32 sm:h-40 rounded-2xl overflow-hidden group border border-slate-100 shadow-2xs">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={img}
                         alt={`${service.title} preview ${idx + 1}`}

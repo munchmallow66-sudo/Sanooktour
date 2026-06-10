@@ -5,10 +5,11 @@ export async function GET() {
   try {
     const bookings = await getBookings();
     return NextResponse.json(bookings);
-  } catch (error: any) {
+  } catch (error) {
     console.error("GET bookings API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "ไม่สามารถดึงข้อมูลรายการจองได้", details: error.message },
+      { error: "ไม่สามารถดึงข้อมูลรายการจองได้", details: errorMessage },
       { status: 500 }
     );
   }
@@ -37,16 +38,18 @@ export async function POST(request: Request) {
         travel_date: body.travel_date
       });
       return NextResponse.json(newBooking, { status: 201 });
-    } catch (dbError: any) {
+    } catch (dbError) {
+      const dbErrorMessage = dbError instanceof Error ? dbError.message : String(dbError);
       return NextResponse.json(
-        { error: dbError.message || "ที่นั่งว่างไม่เพียงพอสำหรับการจองนี้" },
+        { error: dbErrorMessage || "ที่นั่งว่างไม่เพียงพอสำหรับการจองนี้" },
         { status: 400 }
       );
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error("POST bookings API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "เกิดข้อผิดพลาดในการสร้างรายการจอง", details: error.message },
+      { error: "เกิดข้อผิดพลาดในการสร้างรายการจอง", details: errorMessage },
       { status: 500 }
     );
   }
@@ -81,10 +84,11 @@ export async function PUT(request: Request) {
     }
 
     return NextResponse.json(updatedBooking);
-  } catch (error: any) {
+  } catch (error) {
     console.error("PUT bookings API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "เกิดข้อผิดพลาดในการอัปเดตสถานะการจอง", details: error.message },
+      { error: "เกิดข้อผิดพลาดในการอัปเดตสถานะการจอง", details: errorMessage },
       { status: 500 }
     );
   }

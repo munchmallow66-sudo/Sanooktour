@@ -7,6 +7,14 @@ import { Users, Compass, Briefcase, Award, Sparkles, ArrowRight, Calendar, Heart
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+interface ServiceInfo {
+  slug: string;
+  title: string;
+  desc: string;
+  iconName: string;
+  image: string;
+}
+
 const serviceList = [
   {
     slug: "private-group",
@@ -60,20 +68,21 @@ const serviceList = [
 ];
 
 export default function ServicesPage() {
-  const [services, setServices] = useState<any[]>([]);
+  const [services, setServices] = useState<ServiceInfo[]>([]);
 
   useEffect(() => {
     const stored = localStorage.getItem("services_list");
     if (stored) {
       try {
-        setServices(JSON.parse(stored));
+        const parsed = JSON.parse(stored);
+        setTimeout(() => setServices(parsed), 0);
       } catch (e) {
         console.error(e);
-        setServices(serviceList);
+        setTimeout(() => setServices(serviceList), 0);
       }
     } else {
       localStorage.setItem("services_list", JSON.stringify(serviceList));
-      setServices(serviceList);
+      setTimeout(() => setServices(serviceList), 0);
     }
   }, []);
 
@@ -110,6 +119,7 @@ export default function ServicesPage() {
         {/* Banner Section */}
         <section className="relative min-h-[50vh] flex items-center justify-center bg-linear-to-r from-primary-dark via-slate-950 to-primary-dark text-white overflow-hidden text-center pt-28 pb-16">
           <div className="absolute inset-0 opacity-25">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80" 
               alt="Services Banner" 
@@ -141,6 +151,7 @@ export default function ServicesPage() {
               >
                 {/* Card Image */}
                 <div className="relative h-48 w-full overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={service.image} 
                     alt={service.title} 

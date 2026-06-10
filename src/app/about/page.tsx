@@ -63,6 +63,7 @@ export default function AboutPage() {
         {/* Banner Section */}
         <section className="relative min-h-[50vh] flex items-center justify-center bg-linear-to-r from-primary-dark via-slate-950 to-primary-dark text-white overflow-hidden text-center pt-28 pb-16">
           <div className="absolute inset-0 opacity-25">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80" 
               alt="About Banner" 
@@ -102,6 +103,7 @@ export default function AboutPage() {
             </div>
           </div>
           <div className="relative h-96 rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] border-4 border-white group cursor-pointer">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80" 
               alt="Group Travel" 
@@ -153,6 +155,7 @@ export default function AboutPage() {
                 className="bg-white rounded-3xl p-6 border border-slate-100 shadow-xs flex flex-col items-center text-center space-y-4 smooth-hover hover:-translate-y-2 hover:shadow-lg hover:border-primary/10 transition-all duration-300 group cursor-pointer"
               >
                 <div className="h-32 w-32 rounded-full overflow-hidden border-4 border-primary-light/20 shadow-inner group-hover:border-primary-light/50 transition-colors duration-500">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={member.image} alt={member.name} className="h-full w-full object-cover smooth-hover group-hover:scale-105" />
                 </div>
                 <div className="space-y-1">

@@ -4,14 +4,14 @@ import { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { 
-  Calendar, Users, Mail, Phone, User, DollarSign, 
+  Mail, Phone, User, 
   ArrowLeft, CheckCircle2, ShieldCheck, CreditCard, RefreshCw 
 } from "lucide-react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Tour } from "@/lib/mockData";
+import { Tour, Booking } from "@/lib/mockData";
 
 export default function BookingPage({ params }: { params: Promise<{ tourId: string }> }) {
   const router = useRouter();
@@ -27,7 +27,7 @@ export default function BookingPage({ params }: { params: Promise<{ tourId: stri
   const [customerPhone, setCustomerPhone] = useState("");
   const [travelersCount, setTravelersCount] = useState(1);
   const [submitting, setSubmitting] = useState(false);
-  const [bookingSuccess, setBookingSuccess] = useState<any>(null);
+  const [bookingSuccess, setBookingSuccess] = useState<Booking | null>(null);
 
   useEffect(() => {
     // Populate form if user is already logged in
@@ -35,9 +35,11 @@ export default function BookingPage({ params }: { params: Promise<{ tourId: stri
     if (storedUser) {
       try {
         const parsed = JSON.parse(storedUser);
-        setCustomerName(parsed.name || "");
-        setCustomerEmail(parsed.email || "");
-      } catch (e) {
+        setTimeout(() => {
+          setCustomerName(parsed.name || "");
+          setCustomerEmail(parsed.email || "");
+        }, 0);
+      } catch {
         // ignore
       }
     }
@@ -60,7 +62,7 @@ export default function BookingPage({ params }: { params: Promise<{ tourId: stri
       }
     }
     loadTour();
-  }, [tourId]);
+  }, [tourId, router]);
 
   const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -366,7 +368,8 @@ export default function BookingPage({ params }: { params: Promise<{ tourId: stri
 
                 <div className="space-y-4">
                   <div className="relative h-32 rounded-xl overflow-hidden">
-                    <img src={tour.thumbnail} alt={tour.title} className="w-full h-full object-cover" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={tour.thumbnail} alt={tour.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   </div>
 
                   <p className="font-semibold text-slate-800 text-sm line-clamp-2 leading-snug">

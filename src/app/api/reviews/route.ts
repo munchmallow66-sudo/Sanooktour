@@ -5,10 +5,11 @@ export async function GET() {
   try {
     const reviews = await getReviews();
     return NextResponse.json(reviews);
-  } catch (error: any) {
+  } catch (error) {
     console.error("GET reviews API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "ไม่สามารถดึงข้อมูลรีวิวได้", details: error.message },
+      { error: "ไม่สามารถดึงข้อมูลรีวิวได้", details: errorMessage },
       { status: 500 }
     );
   }

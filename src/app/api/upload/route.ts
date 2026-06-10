@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
 
+interface CloudinaryUploadResult {
+  secure_url: string;
+  public_id: string;
+}
+
 // Preset Unsplash images to fall back to during local testing if no keys are configured
 const fallbackImages = [
   "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80", // Sydney
@@ -42,7 +47,7 @@ export async function POST(request: Request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        const uploadResult = await new Promise<any>((resolve, reject) => {
+        const uploadResult = await new Promise<CloudinaryUploadResult>((resolve, reject) => {
           const uploadStream = cloudinary.uploader.upload_stream(
             { 
               folder: 'sanook-on-tour',
@@ -50,7 +55,7 @@ export async function POST(request: Request) {
             },
             (error, result) => {
               if (error) reject(error);
-              else resolve(result);
+              else resolve(result as CloudinaryUploadResult);
             }
           );
           uploadStream.end(buffer);
@@ -61,10 +66,11 @@ export async function POST(request: Request) {
           public_id: uploadResult.public_id,
           success: true
         });
-      } catch (cloudinaryError: any) {
+      } catch (cloudinaryError) {
         console.error("Cloudinary uploading failed:", cloudinaryError);
+        const errorMessage = cloudinaryError instanceof Error ? cloudinaryError.message : String(cloudinaryError);
         return NextResponse.json(
-          { error: "ไม่สามารถอัปโหลดไปยัง Cloudinary ได้", details: cloudinaryError.message },
+          { error: "ไม่สามารถอัปโหลดไปยัง Cloudinary ได้", details: errorMessage },
           { status: 500 }
         );
       }
@@ -100,10 +106,11 @@ export async function POST(request: Request) {
       message: "อัปโหลดรูปภาพจำลองสำเร็จ (เนื่องจากยังไม่ได้กำหนดค่า Cloudinary)"
     });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error("Upload API error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ", details: error.message },
+      { error: "เกิดข้อผิดพลาดในการอัปโหลดรูปภาพ", details: errorMessage },
       { status: 500 }
     );
   }

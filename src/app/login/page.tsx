@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Compass, Mail, Lock, User, RefreshCw } from "lucide-react";
+import { Mail, Lock, User, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import Navbar from "@/components/Navbar";
@@ -73,6 +73,7 @@ export default function LoginPage() {
           <div className="text-center space-y-3">
             <Link href="/" className="inline-flex items-center space-x-2.5 justify-center">
               <div className="relative h-12 w-12 overflow-hidden rounded-xl border border-slate-100 bg-white flex items-center justify-center shrink-0 shadow-xs">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/logo.jpg"
                   alt="Sanook on tour Logo"

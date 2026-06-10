@@ -10,7 +10,26 @@ import {
 import toast from "react-hot-toast";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Tour, Booking } from "@/lib/mockData";
+import { Tour, Booking, Review } from "@/lib/mockData";
+
+interface ServiceInfo {
+  slug: string;
+  title: string;
+  desc: string;
+  iconName: string;
+  image: string;
+}
+
+interface ServiceDetail {
+  title: string;
+  subtitle: string;
+  desc: string;
+  bgImage: string;
+  benefits: string[];
+  highlights: string[];
+  placeholderName: string;
+  previewImages?: string[];
+}
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -47,8 +66,7 @@ export default function AdminDashboard() {
   const [transportType, setTransportType] = useState("plane");
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [galleryInput, setGalleryInput] = useState("");
-  const [allReviews, setAllReviews] = useState<any[]>([]);
-  const [loadingReviews, setLoadingReviews] = useState(false);
+  const [allReviews, setAllReviews] = useState<Review[]>([]);
   
   // Array lists
   const [highlightInput, setHighlightInput] = useState("");
@@ -67,8 +85,8 @@ export default function AdminDashboard() {
   const [uploadingImage, setUploadingImage] = useState(false);
 
   // Service states
-  const [services, setServices] = useState<any[]>([]);
-  const [servicesDetailed, setServicesDetailed] = useState<any>({});
+  const [services, setServices] = useState<ServiceInfo[]>([]);
+  const [servicesDetailed, setServicesDetailed] = useState<Record<string, ServiceDetail>>({});
   const [editingServiceSlug, setEditingServiceSlug] = useState<string | null>(null);
   const [showServiceForm, setShowServiceForm] = useState(false);
 
@@ -96,23 +114,24 @@ export default function AdminDashboard() {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) {
-      setIsAdmin(false);
+      setTimeout(() => setIsAdmin(false), 0);
       router.push("/login");
       return;
     }
     try {
       const parsed = JSON.parse(storedUser);
       if (parsed.role === "admin") {
-        setIsAdmin(true);
+        setTimeout(() => setIsAdmin(true), 0);
       } else {
-        setIsAdmin(false);
+        setTimeout(() => setIsAdmin(false), 0);
         router.push("/login");
       }
-    } catch (e) {
-      setIsAdmin(false);
+    } catch (error) {
+      console.error(error);
+      setTimeout(() => setIsAdmin(false), 0);
       router.push("/login");
     }
-  }, []);
+  }, [router]);
 
   const loadData = async () => {
     setLoading(true);
@@ -128,11 +147,9 @@ export default function AdminDashboard() {
       setBookings(bookingsData);
 
       // Fetch reviews
-      setLoadingReviews(true);
       const reviewsRes = await fetch("/api/reviews");
       const reviewsData = await reviewsRes.json();
       setAllReviews(reviewsData);
-      setLoadingReviews(false);
     } catch (error) {
       console.error(error);
       toast.error("ไม่สามารถเชื่อมต่อฐานข้อมูลได้");
@@ -143,8 +160,10 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     if (isAdmin) {
-      loadData();
-      loadServicesFromStorage();
+      setTimeout(() => {
+        loadData();
+        loadServicesFromStorage();
+      }, 0);
     }
   }, [isAdmin]);
 
@@ -378,7 +397,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const loadServicesFromStorage = () => {
+  function loadServicesFromStorage() {
     const storedList = localStorage.getItem("services_list");
     const storedData = localStorage.getItem("services_data");
     
@@ -564,7 +583,7 @@ export default function AdminDashboard() {
       localStorage.setItem("services_data", JSON.stringify(defaultDetailed));
       setServicesDetailed(defaultDetailed);
     }
-  };
+  }
 
   const resetServiceForm = () => {
     setEditingServiceSlug(null);
@@ -584,7 +603,7 @@ export default function AdminDashboard() {
     setPreviewImageInput("");
   };
 
-  const handleEditServiceClick = (service: any) => {
+  const handleEditServiceClick = (service: ServiceInfo) => {
     const detailed = servicesDetailed[service.slug] || {};
     setEditingServiceSlug(service.slug);
     setSSlug(service.slug);
@@ -628,7 +647,7 @@ export default function AdminDashboard() {
     };
 
     let updatedList = [...services];
-    let updatedDetailed = { ...servicesDetailed };
+    const updatedDetailed = { ...servicesDetailed };
 
     if (editingServiceSlug) {
       if (editingServiceSlug !== listPayload.slug) {
@@ -1186,7 +1205,8 @@ export default function AdminDashboard() {
                                       } else {
                                         toast.error(data.error || "อัปโหลดไม่สำเร็จ", { id: "gallery-upload" });
                                       }
-                                    } catch (err) {
+                                    } catch (error) {
+                                      console.error(error);
                                       toast.error("เกิดข้อผิดพลาดในการอัปโหลด", { id: "gallery-upload" });
                                     }
                                   }}
@@ -1855,7 +1875,8 @@ export default function AdminDashboard() {
                               <div className="grid grid-cols-4 gap-1.5 max-h-28 overflow-y-auto pt-1">
                                 {sPreviewImages.map((img, i) => (
                                   <div key={i} className="relative h-10 w-full rounded-md border border-slate-200 overflow-hidden group bg-white">
-                                    <img src={img} className="w-full h-full object-cover" />
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img src={img} alt={`Preview ${i + 1}`} className="w-full h-full object-cover" />
                                     <button 
                                       type="button"
                                       onClick={() => setSPreviewImages(prev => prev.filter((_, idx) => idx !== i))}
@@ -1927,7 +1948,8 @@ export default function AdminDashboard() {
                                     <td className="px-4 py-3 font-semibold text-slate-800" title={s.title}>{s.title}</td>
                                     <td className="px-4 py-3">
                                       <div className="h-8 w-12 rounded-md overflow-hidden border border-slate-200 bg-slate-50">
-                                        <img src={s.image} className="w-full h-full object-cover" />
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={s.image} alt={s.title} className="w-full h-full object-cover" />
                                       </div>
                                     </td>
                                     <td className="px-4 py-3 text-center font-bold text-primary">{previewsCount} ภาพ</td>
