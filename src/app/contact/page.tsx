@@ -170,8 +170,9 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-500">ชื่อผู้ติดต่อ *</label>
+                    <label htmlFor="contact-name" className="text-xs font-semibold text-slate-500">ชื่อผู้ติดต่อ *</label>
                     <input
+                      id="contact-name"
                       type="text"
                       required
                       value={name}
@@ -182,8 +183,9 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-500">อีเมลสำหรับติดต่อกลับ *</label>
+                    <label htmlFor="contact-email" className="text-xs font-semibold text-slate-500">อีเมลสำหรับติดต่อกลับ *</label>
                     <input
+                      id="contact-email"
                       type="email"
                       required
                       value={email}
@@ -196,8 +198,9 @@ export default function ContactPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-500">เบอร์โทรศัพท์ติดต่อ</label>
+                    <label htmlFor="contact-phone" className="text-xs font-semibold text-slate-500">เบอร์โทรศัพท์ติดต่อ</label>
                     <input
+                      id="contact-phone"
                       type="tel"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
@@ -207,8 +210,9 @@ export default function ContactPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-500">หัวข้อติดต่อ</label>
+                    <label htmlFor="contact-subject" className="text-xs font-semibold text-slate-500">หัวข้อติดต่อ</label>
                     <input
+                      id="contact-subject"
                       type="text"
                       value={subject}
                       onChange={(e) => setSubject(e.target.value)}
@@ -219,8 +223,9 @@ export default function ContactPage() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-slate-500">รายละเอียดข้อความติดต่อ *</label>
+                  <label htmlFor="contact-message" className="text-xs font-semibold text-slate-500">รายละเอียดข้อความติดต่อ *</label>
                   <textarea
+                    id="contact-message"
                     rows={4}
                     required
                     value={message}

@@ -33,6 +33,8 @@ export default function Hero() {
         <img
           src="/hero-bg.jpg"
           alt="Travel Background"
+          fetchPriority="high"
+          decoding="async"
           className="w-full h-full object-cover object-center scale-102"
         />
         <div className="absolute inset-0 bg-linear-to-b from-slate-950/30 via-transparent to-slate-950/40" />
@@ -77,10 +79,11 @@ export default function Hero() {
         >
           {/* Keyword Search */}
           <div className="flex flex-col space-y-1.5">
-            <label className="font-prompt text-xs font-semibold text-slate-500 flex items-center px-1">
+            <label htmlFor="hero-keyword-search" className="font-prompt text-xs font-semibold text-slate-500 flex items-center px-1">
               <Search className="h-3.5 w-3.5 mr-1 text-primary" /> ค้นหาโปรแกรมทัวร์
             </label>
             <input
+              id="hero-keyword-search"
               type="text"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
@@ -91,10 +94,11 @@ export default function Hero() {
 
           {/* Destination Selector */}
           <div className="flex flex-col space-y-1.5">
-            <label className="font-prompt text-xs font-semibold text-slate-500 flex items-center px-1">
+            <label htmlFor="hero-country-select" className="font-prompt text-xs font-semibold text-slate-500 flex items-center px-1">
               <MapPin className="h-3.5 w-3.5 mr-1 text-primary" /> ประเทศที่อยากเที่ยว
             </label>
             <select
+              id="hero-country-select"
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               className="w-full px-4 py-2.5 rounded-2xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary font-prompt text-sm font-medium bg-white outline-hidden cursor-pointer transition-all"
@@ -111,10 +115,11 @@ export default function Hero() {
 
           {/* Budget Selector */}
           <div className="flex flex-col space-y-1.5">
-            <label className="font-prompt text-xs font-semibold text-slate-500 flex items-center px-1">
+            <label htmlFor="hero-budget-select" className="font-prompt text-xs font-semibold text-slate-500 flex items-center px-1">
               <DollarSign className="h-3.5 w-3.5 mr-1 text-primary" /> งบประมาณการเดินทาง
             </label>
             <select
+              id="hero-budget-select"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
               className="w-full px-4 py-2.5 rounded-2xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary font-prompt text-sm font-medium bg-white outline-hidden cursor-pointer transition-all"

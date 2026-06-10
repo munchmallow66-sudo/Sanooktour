@@ -161,9 +161,10 @@ function ToursSearchAndList() {
         <form onSubmit={handleApplyFilters} className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Keyword Search */}
           <div className="flex flex-col space-y-1.5">
-            <label className="font-prompt text-xs font-semibold text-slate-400">ค้นหาโปรแกรม</label>
+            <label htmlFor="tour-keyword-search" className="font-prompt text-xs font-semibold text-slate-400">ค้นหาโปรแกรม</label>
             <div className="relative">
               <input
+                id="tour-keyword-search"
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -176,8 +177,9 @@ function ToursSearchAndList() {
 
           {/* Country Selector */}
           <div className="flex flex-col space-y-1.5">
-            <label className="font-prompt text-xs font-semibold text-slate-400">ประเทศ</label>
+            <label htmlFor="tour-country-select" className="font-prompt text-xs font-semibold text-slate-400">ประเทศ</label>
             <select
+              id="tour-country-select"
               value={country}
               onChange={(e) => setCountry(e.target.value)}
               className="w-full px-4 py-2.5 rounded-2xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary font-prompt text-sm outline-hidden cursor-pointer"
@@ -194,8 +196,9 @@ function ToursSearchAndList() {
 
           {/* Price Selector */}
           <div className="flex flex-col space-y-1.5">
-            <label className="font-prompt text-xs font-semibold text-slate-400">งบประมาณสูงสุด</label>
+            <label htmlFor="tour-price-select" className="font-prompt text-xs font-semibold text-slate-400">งบประมาณสูงสุด</label>
             <select
+              id="tour-price-select"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
               className="w-full px-4 py-2.5 rounded-2xl border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary font-prompt text-sm outline-hidden cursor-pointer"
@@ -258,8 +261,9 @@ function ToursSearchAndList() {
           </div>
 
           <div className="flex items-center gap-3">
-            <label className="font-prompt text-xs font-semibold text-slate-400 whitespace-nowrap">เรียงลำดับ:</label>
+            <label htmlFor="tour-sort-select" className="font-prompt text-xs font-semibold text-slate-400 whitespace-nowrap">เรียงลำดับ:</label>
             <select
+              id="tour-sort-select"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="px-3 py-2 rounded-xl border border-slate-200 font-prompt text-xs font-semibold outline-hidden cursor-pointer"

@@ -107,6 +107,7 @@ export default function TourCard({ tour }: TourCardProps) {
           alt={tour.title}
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-106"
           loading="lazy"
+          decoding="async"
         />
         
         {/* Soft shadow gradients on image */}

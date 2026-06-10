@@ -142,6 +142,8 @@ export default function HomePage() {
                   <img
                     src={dest.image_url}
                     alt={dest.name}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover smooth-hover group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-slate-950/70 via-slate-900/10 to-transparent" />
@@ -316,6 +318,8 @@ export default function HomePage() {
                 <img
                   src={img}
                   alt={`Gallery Image ${idx + 1}`}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover smooth-hover group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 smooth-hover flex items-center justify-center">
@@ -330,9 +334,11 @@ export default function HomePage() {
         <section className="relative overflow-hidden rounded-3xl bg-slate-950 py-16 px-8 text-center text-white border border-slate-800">
           {/* Background overlay details */}
           <div className="absolute inset-0 z-0">
-            <img 
-              src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80" 
+             <img 
+              src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=70" 
               alt="CTA Background" 
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover opacity-15"
             />
           </div>

@@ -369,6 +369,7 @@ function NavbarContent() {
           <div className="flex xl:hidden items-center space-x-3 shrink-0">
             <button
               onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? "ปิดเมนูนำทาง" : "เปิดเมนูนำทาง"}
               className={`p-2 rounded-lg smooth-hover transition-colors duration-300 ${
                 isTransparent 
                   ? "text-white hover:bg-white/10" 

@@ -26,24 +26,24 @@ export default function Footer() {
               บริษัททัวร์ยุคใหม่ เที่ยวสนุก ทุกทริป บริการอบอุ่น ใส่ใจทุกรายละเอียด ด้วยราคาที่คุ้มค่าสูงสุด พร้อมดูแลท่านตลอด 24 ชั่วโมง
             </p>
             <div className="flex space-x-3 pt-2">
-              <a href="https://www.facebook.com/sanookontour456/?locale=th_TH" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-[#123166] hover:bg-secondary hover:text-white text-slate-300 smooth-hover" title="Facebook">
+              <a href="https://www.facebook.com/sanookontour456/?locale=th_TH" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-[#123166] hover:bg-secondary hover:text-white text-slate-300 smooth-hover" title="Facebook" aria-label="Facebook Page">
                 <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                   <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
                 </svg>
               </a>
-              <a href="#" className="p-2 rounded-lg bg-[#123166] hover:bg-secondary hover:text-white text-slate-300 smooth-hover" title="Instagram">
+              <a href="#" className="p-2 rounded-lg bg-[#123166] hover:bg-secondary hover:text-white text-slate-300 smooth-hover" title="Instagram" aria-label="Instagram Profile">
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
                 </svg>
               </a>
-              <a href="#" className="p-2 rounded-lg bg-[#123166] hover:bg-secondary hover:text-white text-slate-300 smooth-hover" title="Twitter">
+              <a href="#" className="p-2 rounded-lg bg-[#123166] hover:bg-secondary hover:text-white text-slate-300 smooth-hover" title="Twitter" aria-label="Twitter Feed">
                 <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                   <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
                 </svg>
               </a>
-              <a href="https://line.me/ti/p/~0624658228" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-[#123166] hover:bg-secondary hover:text-white text-slate-300 smooth-hover" title="Line">
+              <a href="https://line.me/ti/p/~0624658228" target="_blank" rel="noopener noreferrer" className="p-2 rounded-lg bg-[#123166] hover:bg-secondary hover:text-white text-slate-300 smooth-hover" title="Line" aria-label="Line Official Chat">
                 <MessageSquare className="h-4 w-4" />
               </a>
             </div>
