@@ -102,6 +102,7 @@ export default function TourCard({ tour }: TourCardProps) {
     >
       {/* Thumbnail Header Area */}
       <div className="relative h-60 overflow-hidden">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={tour.thumbnail}
           alt={tour.title}

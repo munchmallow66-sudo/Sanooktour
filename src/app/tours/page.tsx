@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { Search, MapPin, Grid, List, RefreshCw, ChevronLeft, ChevronRight, Calendar, Users, SlidersHorizontal } from "lucide-react";
+import { Search, Grid, List, RefreshCw, ChevronLeft, ChevronRight, Calendar, Users } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TourCard from "@/components/TourCard";
@@ -31,7 +31,6 @@ function ToursSearchAndList() {
   const [maxPrice, setMaxPrice] = useState(urlMaxPrice);
   const [isDomestic, setIsDomestic] = useState(urlIsDomestic);
   const [sortBy, setSortBy] = useState("latest");
-  const [showFilters, setShowFilters] = useState(false);
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,15 +38,17 @@ function ToursSearchAndList() {
 
   // Sync state with URL search params when they change
   useEffect(() => {
-    setSearch(urlSearch);
-    setCountry(urlCountry);
-    setMaxPrice(urlMaxPrice);
-    setIsDomestic(urlIsDomestic);
-    setCurrentPage(1);
+    setTimeout(() => {
+      setSearch(urlSearch);
+      setCountry(urlCountry);
+      setMaxPrice(urlMaxPrice);
+      setIsDomestic(urlIsDomestic);
+      setCurrentPage(1);
+    }, 0);
   }, [urlSearch, urlCountry, urlMaxPrice, urlIsDomestic]);
 
   // Fetch tours from API
-  const fetchTours = async () => {
+  const fetchTours = useCallback(async () => {
     setLoading(true);
     try {
       let query = "/api/tours?";
@@ -68,11 +69,13 @@ function ToursSearchAndList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [search, country, maxPrice, isDomestic, sortBy]);
 
   useEffect(() => {
-    fetchTours();
-  }, [urlSearch, urlCountry, urlMaxPrice, urlIsDomestic, sortBy]);
+    setTimeout(() => {
+      fetchTours();
+    }, 0);
+  }, [fetchTours]);
 
   // Handle Search submit
   const handleApplyFilters = (e?: React.FormEvent) => {

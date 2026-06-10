@@ -225,6 +225,7 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
             {/* Cinematic Gallery */}
             <div className="space-y-4">
               <div className="relative h-80 sm:h-[450px] w-full rounded-3xl overflow-hidden shadow-md">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={activeImage}
                   alt={tour.title}
@@ -242,6 +243,7 @@ export default function TourDetailPage({ params }: { params: Promise<{ id: strin
                         activeImage === img ? "border-primary" : "border-transparent opacity-70 hover:opacity-100"
                       }`}
                     >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
                     </button>
                   ))}

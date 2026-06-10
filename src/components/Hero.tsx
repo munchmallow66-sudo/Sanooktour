@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, MapPin, DollarSign, Calendar, Compass } from "lucide-react";
+import { Search, MapPin, DollarSign } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Hero() {
@@ -30,6 +30,7 @@ export default function Hero() {
     <section className="relative h-screen w-full flex items-center justify-center overflow-hidden pt-24 pb-12">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/hero-bg.jpg"
           alt="Travel Background"

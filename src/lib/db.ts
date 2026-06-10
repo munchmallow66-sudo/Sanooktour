@@ -22,7 +22,6 @@ interface MockDbStore {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var _mockDbStore: MockDbStore | undefined;
 }
 
@@ -45,7 +44,8 @@ const isDbConnected = !!process.env.DATABASE_URL;
 const pool = isDbConnected ? new Pool({ connectionString: process.env.DATABASE_URL }) : null;
 
 // Universal SQL execution helper
-async function sql(queryText: string, params?: any[]): Promise<any[]> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function sql(queryText: string, params?: unknown[]): Promise<any[]> {
   if (!pool) return [];
   const res = await pool.query(queryText, params);
   return res.rows;
