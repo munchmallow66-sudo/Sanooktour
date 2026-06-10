@@ -24,6 +24,7 @@ const interFont = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://sanooktour.vercel.app"),
   title: "Sanook on tour — เที่ยวสนุก ทุกทริป ทัวร์ไทยและต่างประเทศ",
   description: "จองแพ็กเกจทัวร์สุดพรีเมียมในประเทศและต่างประเทศกับ Sanook on tour บริษัททัวร์ยุคใหม่ บริการอบอุ่น เที่ยวสนุก ทุกการเดินทาง",
   keywords: ["ทัวร์ต่างประเทศ", "ทัวร์ในประเทศ", "จองทัวร์", "Sanook on tour", "บริษัททัวร์", "เที่ยวต่างประเทศ"],
@@ -34,6 +35,20 @@ export const metadata: Metadata = {
     siteName: "Sanook on tour",
     locale: "th_TH",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Sanook on tour — เที่ยวสนุก ทุกทริป",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sanook on tour — เที่ยวสนุก ทุกทริป",
+    description: "จองแพ็กเกจทัวร์สุดพรีเมียมในประเทศและต่างประเทศกับ Sanook on tour บริการอบอุ่น เที่ยวสนุก ทุกการเดินทาง",
+    images: ["/og-image.png"],
   },
 };
 
