@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Menu, X, User, LogOut, LayoutDashboard, ChevronDown, Home } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -169,10 +170,11 @@ function NavbarContent() {
             <div className={`relative h-11 w-11 overflow-hidden rounded-xl border flex items-center justify-center smooth-hover group-hover:scale-105 shadow-xs shrink-0 transition-all duration-300 ${
               isTransparent ? "border-white/20 bg-white/10 backdrop-blur-md" : "border-slate-200 bg-white"
             }`}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src="/logo.jpg"
                 alt="Sanook on tour Logo"
+                width={44}
+                height={44}
                 className="h-full w-full object-cover"
               />
             </div>

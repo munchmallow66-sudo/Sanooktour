@@ -62,11 +62,7 @@ export default function RootLayout({
       lang="th"
       className={`${promptFont.variable} ${kanitFont.variable} ${interFont.variable} h-full antialiased`}
     >
-      <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/line-seed-sans-th/index.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/line-seed-sans-th/500.css" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/line-seed-sans-th/700.css" />
-      </head>
+      <head />
       <body className="min-h-full flex flex-col bg-bg-base text-text-base">
         {children}
         <Toaster 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { MapPin, Phone, Mail, MessageSquare, Clock, Send, CheckCircle } from "lucide-react";
 import toast from "react-hot-toast";
 import Navbar from "@/components/Navbar";
@@ -96,11 +97,13 @@ export default function ContactPage() {
         {/* Banner */}
         <section className="relative min-h-[45vh] flex items-center justify-center bg-slate-900 text-white overflow-hidden text-center pt-28 pb-20">
           <div className="absolute inset-0 opacity-20">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1200&q=80"
               alt="Contact Banner"
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
             />
           </div>
           <div className="relative z-10 max-w-4xl mx-auto px-4 space-y-4">

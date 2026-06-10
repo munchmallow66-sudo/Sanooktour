@@ -1,79 +1,48 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ShieldCheck, HeartHandshake, Award, Headset, Star, ArrowRight, Image as ImageIcon } from "lucide-react";
-import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import TourCard from "@/components/TourCard";
-import { GridSkeleton } from "@/components/SkeletonLoader";
 import { Tour, Destination, Review } from "@/lib/mockData";
+import { getTours, getReviews } from "@/lib/db";
 
-export default function HomePage() {
-  const [destinations, setDestinations] = useState<Destination[]>([]);
-  const [recommendedTours, setRecommendedTours] = useState<Tour[]>([]);
-  const [promotionTours, setPromotionTours] = useState<Tour[]>([]);
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
+export default async function HomePage() {
+  let destinations: Destination[] = [];
+  let recommendedTours: Tour[] = [];
+  let promotionTours: Tour[] = [];
+  let reviews: Review[] = [];
 
-  useEffect(() => {
-    async function loadHomeData() {
-      try {
-        setLoading(true);
-        // Load destinations
-        // For simplicity and decoupling, let's fetch tours and filter locally for home, or load from separate API if defined
-        const toursRes = await fetch("/api/tours");
-        const allTours = await toursRes.json() as Tour[];
+  try {
+    const allTours = await getTours();
 
-        // Filter recommended and promotion tours
-        setRecommendedTours(allTours.filter(t => t.is_recommended).slice(0, 3));
-        setPromotionTours(allTours.filter(t => t.is_promotion).slice(0, 3));
+    // Filter recommended and promotion tours
+    recommendedTours = allTours.filter(t => t.is_recommended).slice(0, 3);
+    promotionTours = allTours.filter(t => t.is_promotion).slice(0, 3);
 
-        // Group destinations from tours
-        const destMap = new Map<string, number>();
-        allTours.forEach(t => {
-          destMap.set(t.country, (destMap.get(t.country) || 0) + 1);
-        });
+    // Group destinations from tours
+    const destMap = new Map<string, number>();
+    allTours.forEach(t => {
+      destMap.set(t.country, (destMap.get(t.country) || 0) + 1);
+    });
 
-        // Set predefined destinations with count
-        const initialDestinations: Destination[] = [
-          { id: "d1", name: "ญี่ปุ่น", image_url: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("ญี่ปุ่น") || 1 },
-          { id: "d2", name: "สวิตเซอร์แลนด์", image_url: "https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("สวิตเซอร์แลนด์") || 1 },
-          { id: "d3", name: "เชียงใหม่", image_url: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("ไทย") || 2 },
-          { id: "d4", name: "ภูเก็ต", image_url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("ไทย") || 2 },
-          { id: "d5", name: "เกาหลีใต้", image_url: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("เกาหลีใต้") || 1 },
-          { id: "d6", name: "เวียดนาม", image_url: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("เวียดนาม") || 1 },
-        ];
-        setDestinations(initialDestinations);
+    // Set predefined destinations with count
+    destinations = [
+      { id: "d1", name: "ญี่ปุ่น", image_url: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("ญี่ปุ่น") || 1 },
+      { id: "d2", name: "สวิตเซอร์แลนด์", image_url: "https://images.unsplash.com/photo-1502784444187-359ac186c5bb?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("สวิตเซอร์แลนด์") || 1 },
+      { id: "d3", name: "เชียงใหม่", image_url: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("ไทย") || 2 },
+      { id: "d4", name: "ภูเก็ต", image_url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("ไทย") || 2 },
+      { id: "d5", name: "เกาหลีใต้", image_url: "https://images.unsplash.com/photo-1517154421773-0529f29ea451?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("เกาหลีใต้") || 1 },
+      { id: "d6", name: "เวียดนาม", image_url: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=400&q=80", tour_count: destMap.get("เวียดนาม") || 1 },
+    ];
 
-        // Load reviews
-        const revRes = await fetch("/api/tours/tour-1"); // fetch reviews from specific tour or static ones
-        const details = await revRes.json();
-        setReviews(details.reviews || []);
-
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to load home page data:", error);
-        setLoading(false);
-      }
-    }
-    loadHomeData();
-  }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
-  } as const;
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-  } as const;
+    // Load reviews
+    const dbReviews = await getReviews("tour-1");
+    reviews = dbReviews || [];
+  } catch (error) {
+    console.error("Failed to load home page data:", error);
+  }
 
   // Why choose us points
   const features = [
@@ -129,22 +98,18 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {destinations.map((dest, idx) => (
-              <motion.div
+            {destinations.map((dest) => (
+              <div
                 key={dest.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: idx * 0.08, duration: 0.4 }}
-                className="relative h-64 rounded-3xl overflow-hidden shadow-xs hover:shadow-lg group cursor-pointer"
+                className="relative h-64 rounded-3xl overflow-hidden shadow-xs hover:shadow-lg group cursor-pointer transition-transform duration-300 hover:scale-[1.03]"
               >
                 <Link href={`/tours?search=${encodeURIComponent(dest.name.split(' ')[0])}`}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={dest.image_url}
                     alt={dest.name}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover smooth-hover group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
+                    className="object-cover smooth-hover group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-slate-950/70 via-slate-900/10 to-transparent" />
                   <div className="absolute bottom-5 left-5 right-5 text-white">
@@ -152,7 +117,7 @@ export default function HomePage() {
                     <p className="font-prompt text-xs text-slate-300 mt-1">{dest.tour_count} โปรแกรมทัวร์</p>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>
@@ -164,23 +129,13 @@ export default function HomePage() {
             <p className="font-prompt text-slate-500 mt-2">โปรแกรมทัวร์ลดกระหน่ำ ราคาพิเศษ เฉพาะช่วงนี้เท่านั้น!</p>
           </div>
 
-          {loading ? (
-            <GridSkeleton count={3} />
-          ) : (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {promotionTours.map((tour) => (
-                <motion.div key={tour.id} variants={itemVariants}>
-                  <TourCard tour={tour} />
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {promotionTours.map((tour) => (
+              <div key={tour.id}>
+                <TourCard tour={tour} />
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* SECTION 3: RECOMMENDED TOURS */}
@@ -190,23 +145,13 @@ export default function HomePage() {
             <p className="font-prompt text-slate-500 mt-2">ทริปยอดฮิต จัดโปรแกรมสุดคุ้ม ดูแลโดยไกด์คุณภาพมืออาชีพ</p>
           </div>
 
-          {loading ? (
-            <GridSkeleton count={3} />
-          ) : (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-100px" }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {recommendedTours.map((tour) => (
-                <motion.div key={tour.id} variants={itemVariants}>
-                  <TourCard tour={tour} />
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {recommendedTours.map((tour) => (
+              <div key={tour.id}>
+                <TourCard tour={tour} />
+              </div>
+            ))}
+          </div>
 
           <div className="text-center pt-4">
             <Link
@@ -228,20 +173,16 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feat, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.5 }}
-                className="bg-white p-8 rounded-[30px] shadow-[0_5px_15px_rgba(0,0,0,0.12)] flex flex-col space-y-4 hover:scale-[1.03] smooth-hover"
+                className="bg-white p-8 rounded-[30px] shadow-[0_5px_15px_rgba(0,0,0,0.12)] flex flex-col space-y-4 hover:scale-[1.03] smooth-hover transition-transform duration-300"
               >
                 <div className="p-3 bg-secondary/10 w-fit rounded-2xl">
                   {feat.icon}
                 </div>
                 <h3 className="font-kanit font-bold text-lg text-slate-950">{feat.title}</h3>
                 <p className="font-prompt text-slate-600 text-sm leading-relaxed">{feat.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>
@@ -255,14 +196,10 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {reviews.length > 0 ? (
-              reviews.slice(0, 4).map((rev, idx) => (
-                <motion.div
+              reviews.slice(0, 4).map((rev) => (
+                <div
                   key={rev.id}
-                  initial={{ opacity: 0, x: idx % 2 === 0 ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5 }}
-                  className="bg-white p-8 rounded-[30px] shadow-[0_5px_15px_rgba(0,0,0,0.12)] flex flex-col justify-between hover:scale-[1.02] smooth-hover"
+                  className="bg-white p-8 rounded-[30px] shadow-[0_5px_15px_rgba(0,0,0,0.12)] flex flex-col justify-between hover:scale-[1.02] smooth-hover transition-transform duration-300"
                 >
                   <p className="font-prompt text-slate-600 italic leading-relaxed">
                     “ {rev.comment} ”
@@ -278,7 +215,7 @@ export default function HomePage() {
                       ))}
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))
             ) : (
               // Fallback reviews if database hasn't loaded yet
@@ -307,26 +244,21 @@ export default function HomePage() {
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {galleryImages.map((img, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05 }}
-                className="relative h-64 rounded-2xl overflow-hidden group cursor-zoom-in"
+                className="relative h-64 rounded-2xl overflow-hidden group cursor-zoom-in transition-transform duration-300 hover:scale-[1.02]"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={img}
                   alt={`Gallery Image ${idx + 1}`}
-                  loading="lazy"
-                  decoding="async"
-                  className="w-full h-full object-cover smooth-hover group-hover:scale-105"
+                  fill
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  className="object-cover smooth-hover group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 smooth-hover flex items-center justify-center">
-                  <ImageIcon className="text-white h-8 w-8 scale-75 group-hover:scale-100 transition-transform" />
+                <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 smooth-hover flex items-center justify-center transition-opacity duration-300">
+                  <ImageIcon className="text-white h-8 w-8 scale-75 group-hover:scale-100 transition-transform duration-300" />
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>
@@ -335,13 +267,12 @@ export default function HomePage() {
         <section className="relative overflow-hidden rounded-3xl bg-slate-950 py-16 px-8 text-center text-white border border-slate-800">
           {/* Background overlay details */}
           <div className="absolute inset-0 z-0">
-             {/* eslint-disable-next-line @next/next/no-img-element */}
-             <img 
+             <Image 
               src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=70" 
               alt="CTA Background" 
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover opacity-15"
+              fill
+              sizes="100vw"
+              className="object-cover opacity-15"
             />
           </div>
           <div className="absolute top-[-50%] left-[-20%] w-96 h-96 bg-primary/20 rounded-full blur-3xl" />

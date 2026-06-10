@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Phone, Mail, MapPin, MessageSquare } from "lucide-react";
 
 export default function Footer() {
@@ -11,10 +12,11 @@ export default function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2.5">
               <div className="relative h-11 w-11 overflow-hidden rounded-xl border border-white/20 bg-white flex items-center justify-center shrink-0">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/logo.jpg"
                   alt="Sanook on tour Logo"
+                  width={44}
+                  height={44}
                   className="h-full w-full object-cover"
                 />
               </div>

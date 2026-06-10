@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Calendar, MapPin, Bus, Plane, Ship, FileText, MessageCircle, Laptop } from "lucide-react";
-import { motion } from "framer-motion";
 import { Tour } from "@/lib/mockData";
 import { toast } from "react-hot-toast";
 
@@ -95,20 +95,17 @@ export default function TourCard({ tour }: TourCardProps) {
   };
 
   return (
-    <motion.div
-      whileHover={{ y: -8, scale: 1.01 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      className="bg-white rounded-[28px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-slate-100 flex flex-col h-full group transition-all"
+    <div
+      className="bg-white rounded-[28px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.12)] border border-slate-100 flex flex-col h-full group transition-all duration-300 hover:-translate-y-2 hover:scale-[1.01]"
     >
       {/* Thumbnail Header Area */}
       <div className="relative h-60 overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={tour.thumbnail}
           alt={tour.title}
-          className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-106"
-          loading="lazy"
-          decoding="async"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-106"
         />
         
         {/* Soft shadow gradients on image */}
@@ -226,6 +223,6 @@ export default function TourCard({ tour }: TourCardProps) {
           </Link>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }

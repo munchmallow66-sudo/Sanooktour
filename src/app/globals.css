@@ -10,8 +10,8 @@
   --color-bg-base: #fafafa;
   --color-text-base: #000000;
 
-  --font-prompt: "LINE Seed Sans TH", var(--font-prompt), sans-serif;
-  --font-kanit: "LINE Seed Sans TH", var(--font-kanit), sans-serif;
+  --font-prompt: var(--font-prompt), sans-serif;
+  --font-kanit: var(--font-kanit), sans-serif;
   --font-inter: var(--font-inter), sans-serif;
 }
 
